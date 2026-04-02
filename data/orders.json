@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "userId": 2,
+        "customerName": "Test Customer",
+        "items": [
+            { "productId": 1, "name": "Gold Ring", "quantity": 1, "price": 54999.00 }
+        ],
+        "total": 54999.00,
+        "status": "PENDING"
+    }
+]
