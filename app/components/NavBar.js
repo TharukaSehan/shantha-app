@@ -37,14 +37,15 @@ export default function NavBar() {
   };
 
   return (
-    <nav style={{ padding: '20px 0', borderBottom: '1px solid var(--glass-border)', background: 'rgba(15, 17, 26, 0.8)', backdropFilter: 'blur(10px)', position: 'sticky', top: 0, zIndex: 100 }}>
-      <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h1 style={{ fontSize: '1.5rem', margin: 0, color: 'var(--accent-color)' }}>
+    <nav className="site-nav" style={{ padding: '20px 0', borderBottom: '1px solid var(--glass-border)', background: 'rgba(15, 17, 26, 0.8)', backdropFilter: 'blur(10px)', position: 'sticky', top: 0, zIndex: 100 }}>
+      <div className="container nav-inner" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1 className="nav-brand" style={{ fontSize: '1.5rem', margin: 0, color: 'var(--accent-color)' }}>
           <Link href="/">Shantha Traders</Link>
         </h1>
-        <ul style={{ display: 'flex', gap: '30px', listStyle: 'none', margin: 0, alignItems: 'center' }}>
+        <ul className="nav-links" style={{ display: 'flex', gap: '30px', listStyle: 'none', margin: 0, alignItems: 'center' }}>
           <li><Link href="/" style={{ fontWeight: 500 }}>Home</Link></li>
           <li><Link href="/products" style={{ fontWeight: 500 }}>Products</Link></li>
+          <li><Link href="/about" style={{ fontWeight: 500 }}>About</Link></li>
           <li>
             <Link href="/cart" style={{ fontWeight: 800, padding: '8px 16px', background: 'var(--surface-color)', borderRadius: '20px', border: '1px solid var(--glass-border)' }}>
               Cart ({cartCount})

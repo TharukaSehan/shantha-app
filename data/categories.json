@@ -1,6 +1,34 @@
 [
-    { "id": 1, "name": "Rings" },
-    { "id": 2, "name": "Earrings" },
-    { "id": 3, "name": "Necklaces" },
-    { "id": 4, "name": "Bracelets" }
+    {
+        "id": 1,
+        "name": "Rings"
+    },
+    {
+        "id": 2,
+        "name": "Earrings"
+    },
+    {
+        "id": 3,
+        "name": "Necklaces"
+    },
+    {
+        "id": 4,
+        "name": "Bracelets"
+    },
+    {
+        "id": 5,
+        "name": "Beads"
+    },
+    {
+        "id": 6,
+        "name": "Bangles"
+    },
+    {
+        "id": 7,
+        "name": "Pendants"
+    },
+    {
+        "id": 8,
+        "name": "Chains"
+    }
 ]

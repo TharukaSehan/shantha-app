@@ -155,3 +155,101 @@ button {
   margin: 0 auto;
   padding: 0 20px;
 }
+
+@media (max-width: 992px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 24px !important;
+  }
+
+  .about-split-grid,
+  .about-visit-grid,
+  .product-detail-grid,
+  .admin-panels-grid,
+  .admin-bottom-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 14px;
+  }
+
+  .nav-inner {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 12px;
+  }
+
+  .nav-brand {
+    font-size: 1.25rem !important;
+  }
+
+  .nav-links {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 12px !important;
+    row-gap: 10px;
+  }
+
+  .home-hero {
+    height: 58vh !important;
+  }
+
+  .home-hero-title {
+    font-size: clamp(2rem, 10vw, 3rem) !important;
+    margin: 14px 0 !important;
+  }
+
+  .home-instagram-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    height: auto !important;
+  }
+
+  .home-instagram-grid > div {
+    min-height: 120px;
+  }
+
+  .home-feedback-form {
+    flex-direction: column;
+    max-width: 92% !important;
+  }
+
+  .home-feedback-form input {
+    border-right: 1px solid #555 !important;
+    width: 100%;
+  }
+
+  .home-feedback-button {
+    padding: 14px 20px !important;
+    width: 100%;
+  }
+
+  .product-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .product-action-row {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+
+  .product-action-row input,
+  .product-primary-btn,
+  .product-buy-btn {
+    width: 100%;
+  }
+
+  .footer-payments {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 520px) {
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

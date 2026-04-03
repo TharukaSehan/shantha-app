@@ -1,5 +1,5 @@
 'use client';
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import { loginAdmin } from '../auth';
 
 const initialState = {
@@ -7,7 +7,7 @@ const initialState = {
 };
 
 export default function Login() {
-  const [state, formAction] = useFormState(loginAdmin, initialState);
+  const [state, formAction] = useActionState(loginAdmin, initialState);
 
   return (
     <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

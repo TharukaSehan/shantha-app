@@ -4,9 +4,66 @@
         "userId": 2,
         "customerName": "Test Customer",
         "items": [
-            { "productId": 1, "name": "Gold Ring", "quantity": 1, "price": 54999.00 }
+            {
+                "productId": 1,
+                "name": "Gold Ring",
+                "quantity": 1,
+                "price": 54999
+            }
         ],
-        "total": 54999.00,
-        "status": "PENDING"
+        "total": 54999,
+        "status": "DELIVERED"
+    },
+    {
+        "id": 2,
+        "customerName": "Tharuka Pathirana",
+        "customerEmail": "22fis0549@ms.sab.ac.lk",
+        "customerPhone": "0777807055",
+        "customerAddress": "kjsbdvkjsbvkjssv",
+        "items": [
+            {
+                "id": 1,
+                "name": "Gold Ring",
+                "description": "24k Gold Ring for weddings.",
+                "price": 499,
+                "oldPrice": 65654,
+                "categoryId": 1,
+                "imageUrl": "/images/product/1.jpg",
+                "sku": "GR-001",
+                "tag": "Wedding",
+                "availability": "in stock",
+                "rating": 4.5,
+                "reviews": 12,
+                "color": "Gold",
+                "shippingArea": "Within Sri Lanka",
+                "shippingFee": "Rs.350+ Tax",
+                "fullDescription": "In Shantha Traders Variety of colors and designs are available. This 24k gold ring is perfect for weddings and special occasions.",
+                "quality": "Premium Quality",
+                "quantity": 1
+            },
+            {
+                "id": 2,
+                "name": "Diamond Earrings",
+                "description": "Exquisite diamond earrings to make you shine.",
+                "price": 550,
+                "oldPrice": 45654,
+                "categoryId": 2,
+                "imageUrl": "/images/product/2.jpg",
+                "sku": "DE-001",
+                "tag": "Daily Wear",
+                "availability": "in stock",
+                "rating": 4.7,
+                "reviews": 21,
+                "color": "Silver",
+                "shippingArea": "Within Sri Lanka",
+                "shippingFee": "Rs.350+ Tax",
+                "fullDescription": "Exquisite diamond earrings to make you shine. Available in various designs and materials. Perfect for any occasion.",
+                "quality": "Premium Quality",
+                "quantity": 1
+            }
+        ],
+        "total": 1049,
+        "status": "SHIPPED",
+        "createdAt": "2026-04-03T10:42:44.720Z"
     }
 ]

@@ -5,5 +5,19 @@
         "password": "admin",
         "role": "ADMIN",
         "name": "Admin"
+    },
+    {
+        "id": 2,
+        "email": "customer1@example.com",
+        "password": "password123",
+        "role": "CUSTOMER",
+        "name": "John Doe"
+    },
+    {
+        "id": 3,
+        "email": "customer2@example.com",
+        "password": "password123",
+        "role": "CUSTOMER",
+        "name": "Sarah Smith"
     }
 ]
