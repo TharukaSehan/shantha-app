@@ -1,16 +1,61 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { updateOrderStatus } from '../actions';
 
 export default function OrdersTable({ orders }) {
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const closeTimerRef = useRef(null);
 
   const sortedOrders = useMemo(() => {
     return [...orders].sort((a, b) => Number(b.id) - Number(a.id));
   }, [orders]);
 
-  const closeModal = () => setSelectedOrder(null);
+  const openModal = (order) => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+
+    setSelectedOrder(order);
+    requestAnimationFrame(() => {
+      setIsModalVisible(true);
+    });
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+    closeTimerRef.current = setTimeout(() => {
+      setSelectedOrder(null);
+      closeTimerRef.current = null;
+    }, 240);
+  };
+
+  useEffect(() => {
+    if (!selectedOrder) {
+      return;
+    }
+
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        closeModal();
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [selectedOrder]);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) {
+        clearTimeout(closeTimerRef.current);
+      }
+    };
+  }, []);
 
   return (
     <>
@@ -29,7 +74,7 @@ export default function OrdersTable({ orders }) {
             {sortedOrders.map((o) => (
               <tr
                 key={o.id}
-                onClick={() => setSelectedOrder(o)}
+                onClick={() => openModal(o)}
                 style={{
                   borderBottom: '1px solid rgba(255,255,255,0.05)',
                   cursor: 'pointer',
@@ -88,7 +133,9 @@ export default function OrdersTable({ orders }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '20px'
+            padding: '20px',
+            opacity: isModalVisible ? 1 : 0,
+            transition: 'opacity 240ms ease, backdrop-filter 240ms ease'
           }}
         >
           <div
@@ -102,7 +149,10 @@ export default function OrdersTable({ orders }) {
               background: 'rgba(12, 19, 40, 0.74)',
               boxShadow: '0 22px 60px rgba(0,0,0,0.45)',
               color: 'var(--text-primary)',
-              padding: '22px'
+              padding: '22px',
+              transform: isModalVisible ? 'translateY(0) scale(1)' : 'translateY(14px) scale(0.97)',
+              opacity: isModalVisible ? 1 : 0,
+              transition: 'transform 260ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease'
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', gap: '16px', marginBottom: '14px' }}>

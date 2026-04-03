@@ -29,10 +29,6 @@ export default async function Home() {
                   <img
                     src={product.imageUrl}
                     alt={product.name}
-                    onError={(e) => {
-                      e.currentTarget.onerror = null;
-                      e.currentTarget.src = '/images/product/1.jpg';
-                    }}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
                   <div style={{ position: 'absolute', top: 15, right: 15, background: 'var(--accent-color)', color: '#000', padding: '4px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 600 }}>New</div>
