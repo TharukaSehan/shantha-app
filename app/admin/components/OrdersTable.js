@@ -180,6 +180,16 @@ export default function OrdersTable({ orders }) {
               <p style={{ margin: 0 }}><strong>Status:</strong> {selectedOrder.status || 'N/A'}</p>
               <p style={{ margin: 0 }}><strong>Total:</strong> Rs. {(selectedOrder.total || 0).toLocaleString()}</p>
               <p style={{ margin: 0 }}>
+                <strong>Payment:</strong>{' '}
+                {selectedOrder.paymentDetails?.method === 'card' ? 'Card Payment' : 'Cash on Delivery'}
+              </p>
+              {selectedOrder.paymentDetails?.method === 'card' && (
+                <p style={{ margin: 0 }}>
+                  <strong>Card:</strong>{' '}
+                  {selectedOrder.paymentDetails?.cardHolderName || 'Card Holder'} ending in {selectedOrder.paymentDetails?.cardLast4 || 'N/A'}
+                </p>
+              )}
+              <p style={{ margin: 0 }}>
                 <strong>Created:</strong>{' '}
                 {selectedOrder.createdAt ? new Date(selectedOrder.createdAt).toLocaleString() : 'N/A'}
               </p>

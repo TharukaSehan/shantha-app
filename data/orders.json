@@ -65,5 +65,69 @@
         "total": 1049,
         "status": "SHIPPED",
         "createdAt": "2026-04-03T10:42:44.720Z"
+    },
+    {
+        "id": 3,
+        "customerName": "Tharuka Pathirana",
+        "customerEmail": "22fis0549@ms.sab.ac.lk",
+        "customerPhone": "0777807055",
+        "customerAddress": "kjsbdvkjsbvkjssv",
+        "paymentDetails": {
+            "method": "card",
+            "cardHolderName": "thgrauka",
+            "cardLast4": "5477",
+            "cardExpiry": "06/25"
+        },
+        "items": [
+            {
+                "id": 1,
+                "name": "Gold Ring",
+                "description": "24k Gold Ring for weddings.",
+                "price": 499,
+                "oldPrice": 65654,
+                "categoryId": 1,
+                "imageUrl": "/images/product/1.jpg",
+                "images": [
+                    "/images/product/10.jpg",
+                    "/images/product/11.jpg",
+                    "/images/product/12.jpg",
+                    "/images/product/13.jpg"
+                ],
+                "sku": "GR-001",
+                "tag": "Wedding",
+                "availability": "in stock",
+                "rating": 4.5,
+                "reviews": 12,
+                "color": "Gold",
+                "shippingArea": "Within Sri Lanka",
+                "shippingFee": "Rs.350+ Tax",
+                "fullDescription": "In Shantha Traders Variety of colors and designs are available. This 24k gold ring is perfect for weddings and special occasions.",
+                "quality": "Premium Quality",
+                "quantity": 1
+            },
+            {
+                "id": 3,
+                "name": "Large Bangles Hawadi",
+                "description": "Traditional Hawadi bangles with intricate design.",
+                "price": 600,
+                "oldPrice": 45654,
+                "categoryId": 4,
+                "imageUrl": "/images/product/3.jpg",
+                "sku": "LB-001",
+                "tag": "Traditional",
+                "availability": "in stock",
+                "rating": 4.6,
+                "reviews": 15,
+                "color": "Gold",
+                "shippingArea": "Within Sri Lanka",
+                "shippingFee": "Rs.350+ Tax",
+                "fullDescription": "In Shantha Traders Variety of colors and designs are available. These large Hawadi bangles feature traditional intricate designs perfect for weddings and festivals.",
+                "quality": "Premium Quality",
+                "quantity": 1
+            }
+        ],
+        "total": 1099,
+        "status": "PENDING",
+        "createdAt": "2026-04-04T17:20:36.992Z"
     }
 ]

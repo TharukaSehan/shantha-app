@@ -8,6 +8,7 @@ const initialState = { success: false, error: null };
 export default function CartPage() {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+  const [paymentMethod, setPaymentMethod] = useState('cash_on_delivery');
   const [state, formAction] = useFormState(placeOrder, initialState);
 
   useEffect(() => {
@@ -84,6 +85,72 @@ export default function CartPage() {
               <input type="email" name="customerEmail" placeholder="Email Address" required style={inputStyle} />
               <input type="text" name="customerPhone" placeholder="Phone Number" required style={inputStyle} />
               <input type="text" name="customerAddress" placeholder="Delivery Address" required style={inputStyle} />
+              <div>
+                <p style={{ marginBottom: '10px', fontWeight: 600 }}>Payment Method</p>
+                <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="cash_on_delivery"
+                      checked={paymentMethod === 'cash_on_delivery'}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                    />
+                    Cash on Delivery
+                  </label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="card"
+                      checked={paymentMethod === 'card'}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                    />
+                    Card Payment
+                  </label>
+                </div>
+              </div>
+
+              {paymentMethod === 'card' && (
+                <>
+                  <input type="text" name="cardHolderName" placeholder="Card Holder Name" required={paymentMethod === 'card'} style={inputStyle} />
+                  <input
+                    type="text"
+                    name="cardNumber"
+                    placeholder="Card Number"
+                    inputMode="numeric"
+                    pattern="[0-9]{13,19}"
+                    required={paymentMethod === 'card'}
+                    style={inputStyle}
+                  />
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                    <input
+                      type="text"
+                      name="cardExpiry"
+                      placeholder="MM/YY"
+                      pattern="(0[1-9]|1[0-2])/[0-9]{2}"
+                      required={paymentMethod === 'card'}
+                      style={inputStyle}
+                    />
+                    <input
+                      type="password"
+                      name="cardCvv"
+                      placeholder="CVV"
+                      inputMode="numeric"
+                      pattern="[0-9]{3,4}"
+                      required={paymentMethod === 'card'}
+                      style={inputStyle}
+                    />
+                  </div>
+                  <small style={{ color: 'var(--text-secondary)', marginTop: '-6px' }}>
+                    Demo mode: card details are validated and only last 4 digits are stored.
+                  </small>
+                </>
+              )}
+
+              {state?.error && (
+                <p style={{ color: 'var(--danger-color)', margin: 0 }}>{state.error}</p>
+              )}
               <button type="submit" className="btn-primary">Place Order</button>
             </form>
           </div>
