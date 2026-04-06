@@ -1,11 +1,13 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function NavBar() {
   const [cartCount, setCartCount] = useState(0);
   const [user, setUser] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     // Check cart
@@ -47,6 +49,11 @@ export default function NavBar() {
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
+  const isActive = (href) => {
+    if (href === '/') return pathname === '/';
+    return pathname?.startsWith(href);
+  };
+
   return (
     <nav className="site-nav" style={{ padding: '20px 0', borderBottom: '1px solid var(--glass-border)', background: 'rgba(15, 17, 26, 0.8)', backdropFilter: 'blur(10px)', position: 'sticky', top: 0, zIndex: 100 }}>
       <div className="container nav-inner" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -67,11 +74,17 @@ export default function NavBar() {
         </button>
 
         <ul className="nav-links desktop-nav" style={{ display: 'flex', gap: '30px', listStyle: 'none', margin: 0, alignItems: 'center' }}>
-          <li><Link href="/" style={{ fontWeight: 500 }}>Home</Link></li>
-          <li><Link href="/products" style={{ fontWeight: 500 }}>Products</Link></li>
-          <li><Link href="/about" style={{ fontWeight: 500 }}>About</Link></li>
           <li>
-            <Link href="/cart" style={{ fontWeight: 800, padding: '8px 16px', background: 'var(--surface-color)', borderRadius: '20px', border: '1px solid var(--glass-border)' }}>
+            <Link href="/" className={`desktop-nav-link ${isActive('/') ? 'desktop-nav-link-active' : ''}`}>Home</Link>
+          </li>
+          <li>
+            <Link href="/products" className={`desktop-nav-link ${isActive('/products') ? 'desktop-nav-link-active' : ''}`}>Products</Link>
+          </li>
+          <li>
+            <Link href="/about" className={`desktop-nav-link ${isActive('/about') ? 'desktop-nav-link-active' : ''}`}>About</Link>
+          </li>
+          <li>
+            <Link href="/cart" className={`desktop-nav-link desktop-nav-link-pill ${isActive('/cart') ? 'desktop-nav-link-active' : ''}`}>
               Cart ({cartCount})
             </Link>
           </li>
@@ -81,7 +94,9 @@ export default function NavBar() {
               <button onClick={handleLogout} style={{ background: 'transparent', color: 'var(--danger-color)', fontWeight: 500 }}>Logout</button>
             </li>
           ) : (
-            <li><Link href="/login" style={{ fontWeight: 500, color: 'var(--text-secondary)' }}>User Login</Link></li>
+            <li>
+              <Link href="/login" className={`desktop-nav-link ${isActive('/login') ? 'desktop-nav-link-active' : ''}`}>User Login</Link>
+            </li>
           )}
         </ul>
       </div>

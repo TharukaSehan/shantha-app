@@ -4,6 +4,11 @@ import NavBar from './components/NavBar';
 export const metadata = {
   title: 'Shantha Traders | Premium Jewelry',
   description: 'Exclusive jewelry, gold rings, diamonds and more.',
+   icons: {
+      icon: '/favicons.png',
+      shortcut: '/favicons.png',
+      apple: '/favicons.png',
+   },
 }
 
 export const viewport = {
