@@ -156,6 +156,102 @@ button {
   padding: 0 20px;
 }
 
+.mobile-menu-btn {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.mobile-menu-btn span {
+  width: 18px;
+  height: 2px;
+  background: var(--text-primary);
+  display: block;
+}
+
+.mobile-nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 140;
+}
+
+.mobile-nav-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(320px, 86vw);
+  height: 100vh;
+  background: rgba(15, 17, 26, 0.98);
+  border-left: 1px solid var(--glass-border);
+  box-shadow: -12px 0 28px rgba(0, 0, 0, 0.35);
+  transform: translateX(100%);
+  transition: transform 0.28s ease;
+  z-index: 150;
+  padding: 16px;
+}
+
+.mobile-nav-panel.open {
+  transform: translateX(0);
+}
+
+.mobile-nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+}
+
+.mobile-nav-close {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.mobile-nav-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.mobile-nav-links li a,
+.mobile-nav-links li span,
+.mobile-logout-btn {
+  display: block;
+  width: 100%;
+  padding: 11px 10px;
+  border-radius: 10px;
+}
+
+.mobile-nav-links li a:hover,
+.mobile-logout-btn:hover {
+  background: rgba(205, 162, 86, 0.12);
+}
+
+.mobile-logout-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 82, 82, 0.4);
+  color: var(--danger-color);
+  text-align: left;
+}
+
 @media (max-width: 992px) {
   .footer-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -177,20 +273,20 @@ button {
   }
 
   .nav-inner {
-    flex-direction: column;
-    align-items: flex-start !important;
-    gap: 12px;
+    flex-direction: row;
+    align-items: center !important;
   }
 
   .nav-brand {
     font-size: 1.25rem !important;
   }
 
-  .nav-links {
-    width: 100%;
-    flex-wrap: wrap;
-    gap: 12px !important;
-    row-gap: 10px;
+  .desktop-nav {
+    display: none !important;
+  }
+
+  .mobile-menu-btn {
+    display: inline-flex;
   }
 
   .home-hero {
