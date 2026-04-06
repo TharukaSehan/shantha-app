@@ -1,6 +1,7 @@
 import { readData } from './lib/db';
 import Link from 'next/link';
 import HeroSlider from './components/HeroSlider';
+import AddToCartButton from './components/AddToCartButton';
 
 export default async function Home() {
   const products = readData('products');
@@ -36,7 +37,12 @@ export default async function Home() {
                 <div style={{ padding: '24px' }}>
                   <h3 style={{ fontSize: '1.2rem', marginBottom: '8px' }}>{product.name}</h3>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '15px' }}>Rs. {product.price.toLocaleString()}</p>
-                  <button className="btn-secondary" style={{ width: '100%' }}>Add to Cart</button>
+                  <AddToCartButton
+                    product={product}
+                    label="Add to Cart"
+                    className="btn-secondary"
+                    style={{ width: '100%' }}
+                  />
                 </div>
               </div>
             ))}

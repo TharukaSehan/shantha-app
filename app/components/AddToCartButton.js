@@ -1,6 +1,11 @@
 'use client';
 
-export default function AddToCartButton({ product }) {
+export default function AddToCartButton({
+  product,
+  label = 'Add',
+  className = 'btn-primary',
+  style = { padding: '8px 20px', fontSize: '0.9rem' }
+}) {
   const addToCart = () => {
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     const existing = cart.find(i => i.id === product.id);
@@ -16,8 +21,8 @@ export default function AddToCartButton({ product }) {
   };
 
   return (
-    <button onClick={addToCart} className="btn-primary" style={{ padding: '8px 20px', fontSize: '0.9rem' }}>
-      Add
+    <button onClick={addToCart} className={className} style={style}>
+      {label}
     </button>
   );
 }
