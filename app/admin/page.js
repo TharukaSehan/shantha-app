@@ -3,6 +3,7 @@ import { addProduct, addCategory, deleteCategory } from './actions';
 import ProductsTable from './components/ProductsTable';
 import UsersTable from './components/UsersTable';
 import OrdersTable from './components/OrdersTable';
+import AddProductForm from './components/AddProductForm';
 
 export default async function AdminDashboard() {
   const products = readData('products');
@@ -46,19 +47,7 @@ export default async function AdminDashboard() {
         {/* ADD PRODUCT FORM */}
         <div className="glass-panel" style={{ padding: '30px' }}>
           <h2 style={{ marginBottom: '20px' }}>Add New Product</h2>
-          <form action={addProduct} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            <input type="text" name="name" placeholder="Product Name" required style={inputStyle} />
-            <textarea name="description" placeholder="Product Description" rows="3" style={inputStyle}></textarea>
-            <input type="number" name="price" placeholder="Price (LKR)" required style={inputStyle} step="0.01" />
-            <select name="categoryId" style={inputStyle}>
-              {categories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
-            </select>
-            <input type="text" name="imageUrl" placeholder="Image URL (e.g., /images/product/1.jpg)" style={inputStyle} />
-            <p style={{ marginTop: '-8px', fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-              Use a public image path like <strong>/images/product/10.jpg</strong>. Avoid local paths such as <strong>C:\...</strong>.
-            </p>
-            <button type="submit" className="btn-primary" style={{ marginTop: '10px' }}>Save Product</button>
-          </form>
+          <AddProductForm categories={categories} addProduct={addProduct} inputStyle={inputStyle} />
         </div>
 
         {/* PRODUCTS LIST */}

@@ -1,12 +1,14 @@
 'use client';
 
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, useMemo, useRef, useState } from 'react';
 import { deleteProduct, updateProduct } from '../actions';
 
 export default function ProductsTable({ products }) {
   const [editingId, setEditingId] = useState(null);
   const [editValues, setEditValues] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
+  const mainImageInputRef = useRef(null);
+  const galleryInputRefs = useRef({});
 
   const filteredProducts = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
@@ -93,6 +95,26 @@ export default function ProductsTable({ products }) {
       ...prev,
       images: (prev.images || []).filter((_, i) => i !== index),
     }));
+
+    delete galleryInputRefs.current[index];
+  };
+
+  const handleMainImageSelected = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    handleInputChange('imageUrl', `/images/product/${file.name}`);
+  };
+
+  const handleGalleryImageSelected = (index, event) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    handleGalleryImageChange(index, `/images/product/${file.name}`);
   };
 
   return (
@@ -252,21 +274,46 @@ export default function ProductsTable({ products }) {
 
                       <div style={{ marginBottom: '12px' }}>
                         <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '6px' }}>Main Image URL</label>
-                        <input
-                          type="text"
-                          value={editValues.imageUrl || ''}
-                          onChange={(e) => handleInputChange('imageUrl', e.target.value)}
-                          placeholder="/images/product/10.jpg"
-                          style={{
-                            width: '100%',
-                            padding: '8px 10px',
-                            background: 'rgba(255,255,255,0.1)',
-                            border: '1px solid var(--glass-border)',
-                            color: 'var(--text-primary)',
-                            borderRadius: '4px',
-                            fontSize: '0.85rem'
-                          }}
-                        />
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <input
+                            type="text"
+                            value={editValues.imageUrl || ''}
+                            onChange={(e) => handleInputChange('imageUrl', e.target.value)}
+                            placeholder="/images/product/10.jpg"
+                            style={{
+                              flex: 1,
+                              padding: '8px 10px',
+                              background: 'rgba(255,255,255,0.1)',
+                              border: '1px solid var(--glass-border)',
+                              color: 'var(--text-primary)',
+                              borderRadius: '4px',
+                              fontSize: '0.85rem'
+                            }}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => mainImageInputRef.current?.click()}
+                            style={{
+                              background: 'rgba(255,255,255,0.08)',
+                              color: 'var(--text-primary)',
+                              border: '1px solid var(--glass-border)',
+                              borderRadius: '4px',
+                              padding: '0 10px',
+                              fontSize: '0.75rem',
+                              cursor: 'pointer',
+                              whiteSpace: 'nowrap'
+                            }}
+                          >
+                            Browse
+                          </button>
+                          <input
+                            ref={mainImageInputRef}
+                            type="file"
+                            accept="image/*"
+                            onChange={handleMainImageSelected}
+                            style={{ display: 'none' }}
+                          />
+                        </div>
                       </div>
 
                       <div>
@@ -288,6 +335,31 @@ export default function ProductsTable({ products }) {
                                   borderRadius: '4px',
                                   fontSize: '0.85rem'
                                 }}
+                              />
+                              <button
+                                type="button"
+                                onClick={() => galleryInputRefs.current[idx]?.click()}
+                                style={{
+                                  background: 'rgba(255,255,255,0.08)',
+                                  color: 'var(--text-primary)',
+                                  border: '1px solid var(--glass-border)',
+                                  borderRadius: '4px',
+                                  padding: '0 10px',
+                                  fontSize: '0.75rem',
+                                  whiteSpace: 'nowrap',
+                                  cursor: 'pointer'
+                                }}
+                              >
+                                Browse
+                              </button>
+                              <input
+                                ref={(element) => {
+                                  galleryInputRefs.current[idx] = element;
+                                }}
+                                type="file"
+                                accept="image/*"
+                                onChange={(event) => handleGalleryImageSelected(idx, event)}
+                                style={{ display: 'none' }}
                               />
                               <button
                                 type="button"
