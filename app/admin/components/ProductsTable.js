@@ -6,6 +6,7 @@ import { deleteProduct, updateProduct } from '../actions';
 export default function ProductsTable({ products }) {
   const [editingId, setEditingId] = useState(null);
   const [editValues, setEditValues] = useState({});
+  const [editFiles, setEditFiles] = useState({ mainFile: null, galleryFiles: {} });
   const [searchTerm, setSearchTerm] = useState('');
   const mainImageInputRef = useRef(null);
   const galleryInputRefs = useRef({});
@@ -40,6 +41,7 @@ export default function ProductsTable({ products }) {
       imageUrl: product.imageUrl || '',
       images: galleryImages,
     });
+    setEditFiles({ mainFile: null, galleryFiles: {} });
   };
 
   const handleSave = async (productId) => {
@@ -58,14 +60,28 @@ export default function ProductsTable({ products }) {
       JSON.stringify((editValues.images || []).map((img) => img.trim()).filter(Boolean))
     );
 
+    if (editFiles.mainFile) {
+      formData.append('imageFile', editFiles.mainFile);
+    }
+
+    Object.entries(editFiles.galleryFiles || {}).forEach(([index, file]) => {
+      if (!file) {
+        return;
+      }
+      formData.append('galleryImageIndex', index);
+      formData.append('galleryImageFile', file);
+    });
+
     await updateProduct(formData);
     setEditingId(null);
     setEditValues({});
+    setEditFiles({ mainFile: null, galleryFiles: {} });
   };
 
   const handleCancel = () => {
     setEditingId(null);
     setEditValues({});
+    setEditFiles({ mainFile: null, galleryFiles: {} });
   };
 
   const handleInputChange = (field, value) => {
@@ -97,6 +113,25 @@ export default function ProductsTable({ products }) {
     }));
 
     delete galleryInputRefs.current[index];
+
+    setEditFiles((prev) => {
+      const remappedGalleryFiles = {};
+
+      Object.entries(prev.galleryFiles || {}).forEach(([key, file]) => {
+        const numericKey = parseInt(key);
+        if (Number.isNaN(numericKey) || numericKey === index) {
+          return;
+        }
+
+        const remappedKey = numericKey > index ? numericKey - 1 : numericKey;
+        remappedGalleryFiles[remappedKey] = file;
+      });
+
+      return {
+        ...prev,
+        galleryFiles: remappedGalleryFiles,
+      };
+    });
   };
 
   const handleMainImageSelected = (event) => {
@@ -105,6 +140,7 @@ export default function ProductsTable({ products }) {
       return;
     }
 
+    setEditFiles((prev) => ({ ...prev, mainFile: file }));
     handleInputChange('imageUrl', `/images/product/${file.name}`);
   };
 
@@ -114,6 +150,13 @@ export default function ProductsTable({ products }) {
       return;
     }
 
+    setEditFiles((prev) => ({
+      ...prev,
+      galleryFiles: {
+        ...(prev.galleryFiles || {}),
+        [index]: file,
+      },
+    }));
     handleGalleryImageChange(index, `/images/product/${file.name}`);
   };
 

@@ -2,6 +2,37 @@
 
 import { readData, writeData, generateId } from '../lib/db';
 import { revalidatePath } from 'next/cache';
+import fs from 'fs';
+import path from 'path';
+
+async function saveUploadedImage(file) {
+  if (!file || typeof file === 'string' || file.size === 0) {
+    return null;
+  }
+
+  const uploadsDir = path.join(process.cwd(), 'public', 'images', 'product');
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+  }
+
+  const originalExt = path.extname(file.name || '').toLowerCase();
+  const extension = originalExt || '.jpg';
+  const baseName = path
+    .basename(file.name || 'product-image', originalExt)
+    .replace(/[^a-zA-Z0-9-_]/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 40) || 'product-image';
+
+  const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e6)}`;
+  const storedFileName = `${baseName}-${uniqueSuffix}${extension}`;
+  const filePath = path.join(uploadsDir, storedFileName);
+
+  const bytes = await file.arrayBuffer();
+  fs.writeFileSync(filePath, Buffer.from(bytes));
+
+  return `/images/product/${storedFileName}`;
+}
 
 function normalizeImageUrl(input) {
   const raw = (input || '').toString().trim();
@@ -41,7 +72,8 @@ export async function addProduct(formData) {
   const description = formData.get('description');
   const price = parseFloat(formData.get('price'));
   const categoryId = parseInt(formData.get('categoryId'));
-  const imageUrl = normalizeImageUrl(formData.get('imageUrl'));
+  const uploadedMainImageUrl = await saveUploadedImage(formData.get('imageFile'));
+  const imageUrl = uploadedMainImageUrl || normalizeImageUrl(formData.get('imageUrl'));
 
   const products = readData('products');
   const newProduct = {
@@ -112,7 +144,8 @@ export async function updateProduct(formData) {
   const id = parseInt(formData.get('id'));
   const name = formData.get('name');
   const price = parseFloat(formData.get('price'));
-  const imageUrl = normalizeImageUrl(formData.get('imageUrl'));
+  const uploadedMainImageUrl = await saveUploadedImage(formData.get('imageFile'));
+  const imageUrl = uploadedMainImageUrl || normalizeImageUrl(formData.get('imageUrl'));
   const imagesRaw = formData.get('images');
 
   let images = [];
@@ -128,6 +161,27 @@ export async function updateProduct(formData) {
       images = [];
     }
   }
+
+  const galleryImageIndexes = formData.getAll('galleryImageIndex').map((value) => parseInt(value));
+  const galleryImageFiles = formData.getAll('galleryImageFile');
+
+  for (let i = 0; i < galleryImageFiles.length; i += 1) {
+    const targetIndex = galleryImageIndexes[i];
+    const galleryFile = galleryImageFiles[i];
+
+    if (Number.isNaN(targetIndex) || targetIndex < 0) {
+      continue;
+    }
+
+    const uploadedGalleryImageUrl = await saveUploadedImage(galleryFile);
+    if (uploadedGalleryImageUrl) {
+      images[targetIndex] = uploadedGalleryImageUrl;
+    }
+  }
+
+  images = images
+    .map((img) => normalizeImageUrl(img))
+    .filter((img) => img && img !== imageUrl);
 
   const products = readData('products');
   const productIndex = products.findIndex(p => p.id === id);

@@ -62,6 +62,7 @@ export default function AddProductForm({ categories, addProduct, inputStyle }) {
       <input
         ref={fileInputRef}
         type="file"
+        name="imageFile"
         accept="image/*"
         onChange={handleFileSelected}
         style={{ display: 'none' }}
