@@ -3,6 +3,45 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { updateOrderStatus } from '../actions';
 
+const SHIPPING_FEE = 350;
+
+const formatCurrency = (value) => {
+  return Number(value || 0).toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+};
+
+const getOrderSubtotal = (order) => {
+  if (Number.isFinite(order?.subtotal)) {
+    return order.subtotal;
+  }
+
+  return (order.items || []).reduce((sum, item) => {
+    return sum + (Number(item.price) || 0) * (Number(item.quantity) || 0);
+  }, 0);
+};
+
+const getOrderShippingFee = (order) => {
+  if (Number.isFinite(order?.shippingFee)) {
+    return order.shippingFee;
+  }
+
+  return (order?.items?.length || 0) > 0 ? SHIPPING_FEE : 0;
+};
+
+const getOrderTotal = (order) => {
+  if (Number.isFinite(order?.subtotal) || Number.isFinite(order?.shippingFee)) {
+    return getOrderSubtotal(order) + getOrderShippingFee(order);
+  }
+
+  if (Number.isFinite(order?.total)) {
+    return order.total;
+  }
+
+  return getOrderSubtotal(order) + getOrderShippingFee(order);
+};
+
 export default function OrdersTable({ orders }) {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -86,7 +125,7 @@ export default function OrdersTable({ orders }) {
                   {o.customerName} ({o.customerEmail || 'No email'})
                 </td>
                 <td style={{ padding: '10px' }}>{o.items?.length || 0} items</td>
-                <td style={{ padding: '10px' }}>Rs. {(o.total || 0).toLocaleString()}</td>
+                <td style={{ padding: '10px' }}>Rs. {formatCurrency(getOrderTotal(o))}</td>
                 <td style={{ padding: '10px' }} onClick={(e) => e.stopPropagation()}>
                   <form action={updateOrderStatus} style={{ display: 'flex', gap: '10px' }}>
                     <input type="hidden" name="id" value={o.id} />
@@ -121,6 +160,12 @@ export default function OrdersTable({ orders }) {
       </div>
 
       {selectedOrder && (
+        (() => {
+          const subtotal = getOrderSubtotal(selectedOrder);
+          const shippingFee = getOrderShippingFee(selectedOrder);
+          const total = getOrderTotal(selectedOrder);
+
+          return (
         <div
           onClick={closeModal}
           style={{
@@ -178,10 +223,12 @@ export default function OrdersTable({ orders }) {
               <p style={{ margin: 0 }}><strong>Email:</strong> {selectedOrder.customerEmail || 'N/A'}</p>
               <p style={{ margin: 0 }}><strong>Phone:</strong> {selectedOrder.customerPhone || 'N/A'}</p>
               <p style={{ margin: 0 }}><strong>Status:</strong> {selectedOrder.status || 'N/A'}</p>
-              <p style={{ margin: 0 }}><strong>Total:</strong> Rs. {(selectedOrder.total || 0).toLocaleString()}</p>
+              <p style={{ margin: 0 }}><strong>Subtotal:</strong> Rs. {formatCurrency(subtotal)}</p>
+              <p style={{ margin: 0 }}><strong>Shipping Fee:</strong> Rs. {formatCurrency(shippingFee)}</p>
+              <p style={{ margin: 0 }}><strong>Total:</strong> Rs. {formatCurrency(total)}</p>
               <p style={{ margin: 0 }}>
                 <strong>Payment:</strong>{' '}
-                {selectedOrder.paymentDetails?.method === 'card' ? 'Card Payment' : 'Cash on Delivery'}
+                {selectedOrder.paymentDetails?.method === 'card' ? 'Card Payment' : 'N/A'}
               </p>
               {selectedOrder.paymentDetails?.method === 'card' && (
                 <p style={{ margin: 0 }}>
@@ -221,6 +268,8 @@ export default function OrdersTable({ orders }) {
             </div>
           </div>
         </div>
+          );
+        })()
       )}
     </>
   );

@@ -129,5 +129,63 @@
         "total": 1099,
         "status": "PENDING",
         "createdAt": "2026-04-04T17:20:36.992Z"
+    },
+    {
+        "id": 4,
+        "customerName": "Tharuka Pathirana",
+        "customerEmail": "22fis0549@ms.sab.ac.lk",
+        "customerPhone": "0777807055",
+        "customerAddress": "kjsbdvkjsbvkjssv",
+        "paymentDetails": {
+            "method": "card",
+            "cardHolderName": "tharuka",
+            "cardLast4": "4444",
+            "cardExpiry": "11/22"
+        },
+        "items": [
+            {
+                "id": 10,
+                "name": "Diamond Stud Earrings",
+                "description": "Elegant diamond stud earrings with brilliant sparkle.",
+                "price": 899,
+                "oldPrice": 32000,
+                "categoryId": 2,
+                "imageUrl": "/images/product/10.jpg",
+                "sku": "DS-001",
+                "tag": "Premium",
+                "availability": "in stock",
+                "rating": 4.9,
+                "reviews": 42,
+                "color": "Silver",
+                "shippingArea": "Within Sri Lanka",
+                "shippingFee": "Rs.350+ Tax",
+                "fullDescription": "Elegant diamond stud earrings with brilliant sparkle. Perfect for special occasions and everyday wear.",
+                "quality": "Premium Quality",
+                "quantity": 1
+            },
+            {
+                "id": 7,
+                "name": "Gold Kadas Earrings",
+                "description": "Beautiful gold kadas earrings for special occasions.",
+                "price": 200,
+                "oldPrice": 4000,
+                "categoryId": 2,
+                "imageUrl": "/images/product/7.jpg",
+                "sku": "GK-001",
+                "tag": "Wedding",
+                "availability": "in stock",
+                "rating": 4.5,
+                "reviews": 10,
+                "color": "Gold",
+                "shippingArea": "Within Sri Lanka",
+                "shippingFee": "Rs.350+ Tax",
+                "fullDescription": "Beautiful gold kadas earrings perfect for weddings and special occasions. Available in various designs.",
+                "quality": "Premium Quality",
+                "quantity": 1
+            }
+        ],
+        "total": 1099,
+        "status": "SHIPPED",
+        "createdAt": "2026-04-16T18:38:02.121Z"
     }
 ]

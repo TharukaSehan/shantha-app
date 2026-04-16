@@ -2,12 +2,14 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function ProductDetailClient({ product, category }) {
   const [quantity, setQuantity] = useState(1);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [thumbStartIndex, setThumbStartIndex] = useState(0);
   const [shareUrl, setShareUrl] = useState('');
+  const router = useRouter();
 
   const galleryImages = useMemo(() => {
     const additionalImages = Array.isArray(product.images)
@@ -82,6 +84,31 @@ export default function ProductDetailClient({ product, category }) {
 
   const discount = product.oldPrice ? 
     Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0;
+
+  const addProductToCart = (requestedQuantity) => {
+    const safeQuantity = Math.max(1, Number.parseInt(requestedQuantity, 10) || 1);
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const existing = cart.find((item) => item.id === product.id);
+
+    if (existing) {
+      existing.quantity += safeQuantity;
+    } else {
+      cart.push({ ...product, quantity: safeQuantity });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    window.dispatchEvent(new Event('cart-updated'));
+  };
+
+  const handleAddToCart = () => {
+    addProductToCart(quantity);
+    alert(`${product.name} added to cart!`);
+  };
+
+  const handleBuyNow = () => {
+    addProductToCart(quantity);
+    router.push('/cart');
+  };
 
   return (
     <div className="container" style={{ paddingTop: '100px', minHeight: '80vh' }}>
@@ -360,7 +387,7 @@ export default function ProductDetailClient({ product, category }) {
                 textAlign: 'center'
               }}
             />
-            <button className="product-primary-btn" style={{
+            <button type="button" className="product-primary-btn" style={{
               flex: '1 1 200px',
               padding: '12px 30px',
               background: '#3b82f6',
@@ -371,10 +398,10 @@ export default function ProductDetailClient({ product, category }) {
               fontWeight: 600,
               cursor: 'pointer',
               transition: 'background 0.3s'
-            }} onMouseEnter={(e) => e.target.style.background = '#2563eb'} onMouseLeave={(e) => e.target.style.background = '#3b82f6'}>
+            }} onMouseEnter={(e) => e.target.style.background = '#2563eb'} onMouseLeave={(e) => e.target.style.background = '#3b82f6'} onClick={handleAddToCart}>
               Add To Cart 🛒
             </button>
-            <button className="product-buy-btn" style={{
+            <button type="button" className="product-buy-btn" style={{
               padding: '12px 30px',
               background: '#ef4444',
               color: 'white',
@@ -384,7 +411,7 @@ export default function ProductDetailClient({ product, category }) {
               fontWeight: 600,
               cursor: 'pointer',
               transition: 'background 0.3s'
-            }} onMouseEnter={(e) => e.target.style.background = '#dc2626'} onMouseLeave={(e) => e.target.style.background = '#ef4444'}>
+            }} onMouseEnter={(e) => e.target.style.background = '#dc2626'} onMouseLeave={(e) => e.target.style.background = '#ef4444'} onClick={handleBuyNow}>
               Buy
             </button>
           </div>
