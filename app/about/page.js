@@ -133,6 +133,24 @@ export default function AboutUs() {
               >
                 Follow on Facebook
               </a>
+              <a
+                href="https://www.instagram.com/_shantha_traders_/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-block',
+                  background: 'linear-gradient(135deg, #f58529, #dd2a7b, #8134af)',
+                  color: 'white',
+                  padding: '10px 20px',
+                  borderRadius: '6px',
+                  textDecoration: 'none',
+                  fontWeight: 600,
+                  transition: 'background 0.3s',
+                  marginLeft: '12px'
+                }}
+              >
+                Follow on Instagram
+              </a>
             </div>
 
             <div className="glass-panel" style={{ padding: '30px' }}>
